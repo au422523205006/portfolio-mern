@@ -153,7 +153,9 @@ function App() {
     card.style.transform = "rotateX(0) rotateY(0) scale(1)";
     card.style.boxShadow = "0 0 20px rgba(0,0,0,0.5)";
   };
-
+  console.log("Projects:", projects);
+console.log("Is Admin:", isAdmin);
+console.log("Show Login:", showLogin);
   return (
     <div>
       <section className="hero" id="home">
@@ -167,12 +169,23 @@ function App() {
             </a>
             <a href="mailto:raji@gmail.com">✉</a>
           </div>
-
           <div className="menu">
-            <a href="#about">About</a>
-            <a href="#projects">Projects</a>
-            <a href="#skills">Skills</a>
-          </div>
+  <a href="#about">About</a>
+  <a href="#projects">Projects</a>
+  <a href="#skills">Skills</a>
+
+  {!isAdmin ? (
+    <button className="nav-admin-btn" onClick={() => setShowLogin(true)}>
+      🔐 Admin
+    </button>
+  ) : (
+    <button className="nav-admin-btn" onClick={handleLogout}>
+      Logout
+    </button>
+  )}
+</div>
+
+          
         </nav>
 
         <div className="hero-content">
@@ -253,16 +266,7 @@ function App() {
         ))}
       </section>
 
-      {!isAdmin ? (
-        <button className="admin-login-icon" onClick={() => setShowLogin(true)}>
-          🔐 Admin
-        </button>
-      ) : (
-        <button className="admin-login-icon logout-small" onClick={handleLogout}>
-          Logout
-        </button>
-      )}
-
+     
       {showLogin && !isAdmin && (
         <div className="login-popup">
           <form onSubmit={handleLogin} className="login-modal">
