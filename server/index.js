@@ -8,7 +8,11 @@ const contactRoutes = require("./routes/contactRoutes");
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: "https://portfolio-mern-e69423wr9-au422523205006s-projects.vercel.app",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
 app.use(express.json());
 
 
