@@ -1,10 +1,11 @@
-import './App.css';
+  import "./App.css";
 import { useState, useEffect } from "react";
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+import AOS from "aos";
+import "aos/dist/aos.css";
 import axios from "axios";
 
 function App() {
+  const API_URL = "https://portfolio-backend-2yd8.onrender.com";
   const [projects, setProjects] = useState([]);
   const [showLogin, setShowLogin] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -24,7 +25,7 @@ function App() {
 
   const fetchProjects = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/projects");
+      const res = await axios.get(`${API_URL}/api/projects`);
       setProjects(res.data);
     } catch (err) {
       console.log(err);
@@ -42,29 +43,34 @@ function App() {
     fetchProjects();
 
     const token = localStorage.getItem("token");
-    if (token === "secret123") {
+    if (token) {
       setIsAdmin(true);
     }
   }, []);
 
   const handleLoginChange = (e) => {
-    setLoginData({ ...loginData, [e.target.name]: e.target.value });
+    setLoginData({
+      ...loginData,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const handleLogin = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  try {
-    const res = await axios.post("http://localhost:5000/api/login", loginData);
+    try {
+      const res = await axios.post(`${API_URL}/api/login`, loginData);
 
-    localStorage.setItem("token", res.data.token);
-    setIsAdmin(true);
-    setShowLogin(false);
-    alert("Login success ✅");
-  } catch (err) {
-    alert("Wrong username or password ❌");
-  }
-};
+      localStorage.setItem("token", res.data.token);
+      setIsAdmin(true);
+      setShowLogin(false);
+      alert("Login success ✅");
+    } catch (err) {
+      console.log(err);
+      alert("Wrong username or password ❌");
+    }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     setIsAdmin(false);
@@ -72,7 +78,10 @@ function App() {
   };
 
   const handleProjectChange = (e) => {
-    setNewProject({ ...newProject, [e.target.name]: e.target.value });
+    setNewProject({
+      ...newProject,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const handleAddProject = async (e) => {
@@ -81,15 +90,11 @@ function App() {
     const token = localStorage.getItem("token");
 
     try {
-      await axios.post(
-        "http://localhost:5000/api/projects",
-        newProject,
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
+      await axios.post(`${API_URL}/api/projects`, newProject, {
+        headers: {
+          Authorization: token,
+        },
+      });
 
       alert("Project added ✅");
 
@@ -112,14 +117,11 @@ function App() {
     const token = localStorage.getItem("token");
 
     try {
-      await axios.delete(
-        `http://localhost:5000/api/projects/${id}`,
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
+      await axios.delete(`${API_URL}/api/projects/${id}`, {
+        headers: {
+          Authorization: token,
+        },
+      });
 
       alert("Deleted ✅");
       setProjects(projects.filter((p) => p._id !== id));
@@ -154,21 +156,16 @@ function App() {
 
   return (
     <div>
-      {/* HERO */}
       <section className="hero" id="home">
         <nav className="top-nav">
           <div className="socials">
-            <a href="https://github.com/raji" target="_blank" rel="noopener noreferrer">
+            <a href="https://github.com/raji" target="_blank" rel="noreferrer">
               GH
             </a>
-
-            <a href="https://linkedin.com/in/raji" target="_blank" rel="noopener noreferrer">
+            <a href="https://linkedin.com/in/raji" target="_blank" rel="noreferrer">
               IN
             </a>
-
-            <a href="mailto:raji@gmail.com">
-              ✉
-            </a>
+            <a href="mailto:raji@gmail.com">✉</a>
           </div>
 
           <div className="menu">
@@ -185,15 +182,16 @@ function App() {
         </div>
       </section>
 
-      <a href="#home" className="top-link">Back to top</a>
+      <a href="#home" className="top-link">
+        Back to top
+      </a>
 
-      {/* ABOUT */}
       <section id="about" className="about-section" data-aos="fade-up">
         <div className="about-card" data-aos="fade-right">
           <div className="profile-img">R</div>
           <p>
-            Hi, I'm Rajalakshmi, a B.Tech IT student passionate about
-            web development, Java, MERN stack and problem solving.
+            Hi, I'm Rajalakshmi, a B.Tech IT student passionate about web
+            development, Java, MERN stack and problem solving.
           </p>
         </div>
 
@@ -215,7 +213,6 @@ function App() {
         </div>
       </section>
 
-      {/* PROJECTS */}
       <section id="projects" className="projects-section" data-aos="fade-up">
         {projects.map((p, index) => (
           <div
@@ -231,17 +228,14 @@ function App() {
 
             <div className="card-image">
               {p.image ? (
-                <img src={p.image} alt="project" />
+                <img src={p.image} alt={p.title} />
               ) : (
                 <div className="no-img">{p.tech}</div>
               )}
             </div>
 
             {isAdmin && (
-              <button
-                onClick={() => handleDelete(p._id)}
-                className="delete-btn"
-              >
+              <button onClick={() => handleDelete(p._id)} className="delete-btn">
                 Delete
               </button>
             )}
@@ -259,55 +253,51 @@ function App() {
         ))}
       </section>
 
-      {/* ADMIN LOGIN */}
       {!isAdmin ? (
-  <button className="admin-login-icon" onClick={() => setShowLogin(true)}>
-    🔐 Admin
-  </button>
-) : (
-  <button className="admin-login-icon logout-small" onClick={handleLogout}>
-    Logout
-  </button>
-)}
+        <button className="admin-login-icon" onClick={() => setShowLogin(true)}>
+          🔐 Admin
+        </button>
+      ) : (
+        <button className="admin-login-icon logout-small" onClick={handleLogout}>
+          Logout
+        </button>
+      )}
 
-{showLogin && !isAdmin && (
-  <div className="login-popup">
-    <form onSubmit={handleLogin} className="login-modal">
-      <button
-        type="button"
-        className="close-btn"
-        onClick={() => setShowLogin(false)}
-      >
-        ×
-      </button>
+      {showLogin && !isAdmin && (
+        <div className="login-popup">
+          <form onSubmit={handleLogin} className="login-modal">
+            <button
+              type="button"
+              className="close-btn"
+              onClick={() => setShowLogin(false)}
+            >
+              ×
+            </button>
 
-      <h2>Admin Login</h2>
+            <h2>Admin Login</h2>
 
-     
-      <input
-        name="username"
-        placeholder="Username"
-        value={loginData.username}
-        onChange={handleLoginChange}
-        required
-      />
+            <input
+              name="username"
+              placeholder="Username"
+              value={loginData.username}
+              onChange={handleLoginChange}
+              required
+            />
 
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        value={loginData.password}
-        onChange={handleLoginChange}
-        required
-      />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={loginData.password}
+              onChange={handleLoginChange}
+              required
+            />
 
-      <button type="submit">Login</button>
-    </form>
-  </div>
-)}
+            <button type="submit">Login</button>
+          </form>
+        </div>
+      )}
 
-
-      {/* ADMIN PANEL */}
       {isAdmin && (
         <section className="admin-section" data-aos="fade-up">
           <div
@@ -383,7 +373,6 @@ function App() {
         </section>
       )}
 
-      {/* SKILLS */}
       <section id="skills" className="skills-section" data-aos="fade-up">
         <div className="skills-grid">
           <div className="skill-box">
@@ -418,28 +407,27 @@ function App() {
         </div>
       </section>
 
-      {/* CONTACT */}
       <section id="contact" className="contact-section" data-aos="fade-up">
         <h2>Contact Me</h2>
 
         <div className="contact-card" data-aos="zoom-in">
           <div className="contact-item">
             <span>📧</span>
-            <a href="mailto:rajalakshmi@gmail.com">
-              rajalakshmi@gmail.com
-            </a>
+            <a href="mailto:rajalakshmi@gmail.com">rajalakshmi@gmail.com</a>
           </div>
 
           <div className="contact-item">
             <span>📞</span>
-            <a href="tel:+919876543210">
-              +91 98765 43210
-            </a>
+            <a href="tel:+919876543210">+91 98765 43210</a>
           </div>
 
           <div className="contact-socials">
-            <a href="https://github.com/raji" target="_blank" rel="noreferrer">GH</a>
-            <a href="https://linkedin.com/in/raji" target="_blank" rel="noreferrer">IN</a>
+            <a href="https://github.com/raji" target="_blank" rel="noreferrer">
+              GH
+            </a>
+            <a href="https://linkedin.com/in/raji" target="_blank" rel="noreferrer">
+              IN
+            </a>
           </div>
         </div>
       </section>
