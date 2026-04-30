@@ -1177,3 +1177,92 @@ footer {
   }
 
 }
+
+@media (max-width: 600px) {
+  .hero {
+    height: 100vh;
+  }
+
+  .top-nav {
+    padding: 15px;
+    justify-content: flex-start;
+  }
+
+  .socials {
+    gap: 10px;
+  }
+
+  .socials a {
+    padding: 10px;
+    font-size: 10px;
+  }
+
+  .menu {
+    position: fixed !important;
+    top: 75px !important;
+    right: 15px !important;
+    gap: 8px !important;
+  }
+
+  .menu a {
+    font-size: 18px !important;
+  }
+
+  .nav-admin-btn {
+    font-size: 11px !important;
+    padding: 6px 10px !important;
+  }
+
+  .hero-content {
+    width: 90%;
+  }
+
+  .hero-content h1 {
+    font-size: 34px !important;
+  }
+
+  .about-section {
+    flex-direction: column !important;
+    padding: 70px 15px !important;
+    gap: 35px;
+  }
+
+  .about-card,
+  .timeline {
+    width: 100% !important;
+  }
+
+  .projects-section {
+    flex-direction: column !important;
+    padding: 60px 15px !important;
+  }
+
+  .premium-card {
+    width: 100% !important;
+    max-width: 340px;
+  }
+
+  .skills-section {
+    padding: 60px 15px !important;
+  }
+
+  .skills-grid {
+    width: 100% !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .skills-grid::before,
+  .skills-grid::after {
+    display: none !important;
+  }
+
+  .skill-box {
+    padding: 25px !important;
+  }
+
+  .contact-card,
+  .admin-container,
+  .admin-form {
+    width: 100% !important;
+  }
+}
