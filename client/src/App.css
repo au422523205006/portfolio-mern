@@ -1397,3 +1397,53 @@ footer {
     text-align: center !important;
   }
 }
+
+@media (max-width: 600px) {
+
+  /* HERO mountain image height reduce */
+  .hero {
+    height: 70vh !important;
+    min-height: 520px !important;
+  }
+
+  .hero-content {
+    top: 50% !important;
+  }
+
+  /* ABOUT section spacing fix */
+  .about-section {
+    padding-top: 60px !important;
+    padding-bottom: 60px !important;
+    gap: 45px !important;
+  }
+
+  .timeline {
+    border-left: none !important;
+    padding-left: 0 !important;
+    width: 100% !important;
+    max-width: 360px !important;
+  }
+
+  .timeline-item {
+    margin: 18px 0 !important;
+    padding: 18px !important;
+    border: 1px solid #6ee7ff;
+    border-radius: 12px;
+    background: rgba(110, 231, 255, 0.08);
+    text-align: center;
+  }
+
+  .timeline-item::before {
+    display: none !important;
+  }
+
+  .timeline-item h3 {
+    font-size: 20px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .timeline-item p {
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+  }
+}
